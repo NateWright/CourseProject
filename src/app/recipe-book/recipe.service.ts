@@ -8,22 +8,24 @@ import { Recipe } from './recipe.model';
 })
 export class RecipeService {
   recipeChanged = new Subject<void>();
-  private recipes: Recipe[] = [
-    new Recipe('A Test Recipe', 
-    'This is simply a test.', 
-    'https://upload.wikimedia.org/wikipedia/commons/3/39/Recipe.jpg', 
-    [
-      new Ingredient("meat", 5), 
-      new Ingredient("fries", 15)
-    ]),
-    new Recipe('A Test2', 
-    'This is simply a test2.', 
-    'https://upload.wikimedia.org/wikipedia/commons/3/39/Recipe.jpg', 
-    [
-      new Ingredient("toes", 65), 
-      new Ingredient("fingers", 1)
-    ])
-  ];
+  // private recipes: Recipe[] = [
+  //   new Recipe('A Test Recipe', 
+  //   'This is simply a test.', 
+  //   'https://upload.wikimedia.org/wikipedia/commons/3/39/Recipe.jpg', 
+  //   [
+  //     new Ingredient("meat", 5), 
+  //     new Ingredient("fries", 15)
+  //   ]),
+  //   new Recipe('A Test2', 
+  //   'This is simply a test2.', 
+  //   'https://upload.wikimedia.org/wikipedia/commons/3/39/Recipe.jpg', 
+  //   [
+  //     new Ingredient("toes", 65), 
+  //     new Ingredient("fingers", 1)
+  //   ])
+  // ];
+
+  private recipes: Recipe[] = [];
 
   constructor() { }
 
@@ -36,8 +38,15 @@ export class RecipeService {
   getRecipes() {
     return this.recipes.slice();
   }
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipeChanged.next();
+  }
 
   addRecipe(recipe: Recipe){
+    if(!recipe.ingredients){
+      recipe.ingredients = [];
+    }
     this.recipes.push(recipe);
     this.recipeChanged.next();
   }
